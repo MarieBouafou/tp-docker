@@ -38,7 +38,6 @@ jobs:
           push: true
 
   build-and-push-httpd:
-    needs: test-backend-solar
     runs-on: ubuntu-24.04
     steps:
       - name: Checkout code
