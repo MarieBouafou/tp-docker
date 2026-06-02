@@ -27,6 +27,7 @@ jobs:
         working-directory: simpleapi
 
   test-backend-solar:
+    needs: test-backend
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4 
