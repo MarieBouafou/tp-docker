@@ -23,6 +23,10 @@ jobs:
           distribution: 'temurin'
 
       - name: Build and test with Maven
+        run: mvn clean verify
+        working-directory: simpleapi
+
+      - name: Sonar analysis
         run: mvn -B verify sonar:sonar -Dsonar.projectKey=MarieBouafou_tp-docker -Dsonar.organization=mariebouafou -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=${{ secrets.SONAR_TOKEN }}
         working-directory: simpleapi
 
