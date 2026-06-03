@@ -17,13 +17,9 @@ changed: [marie.bouafou.takima.school]
 PLAY RECAP *************************************************************************************************************************************************
 marie.bouafou.takima.school : ok=13   changed=5    unreachable=0    failed=0    skipped=0    rescued=0    ignored=3---
 # tasks file for roles/app
+
+marie.bouafou.takima.school : ok=13   changed=5    unreachable=0    failed=0    skipped=0    rescued=0    ignored=3---
+# tasks file for roles/app
 - name: Run app container
-  command: >
-    docker run -d
-    --name app
-    --network app-network
-    -e SPRING_DATASOURCE_URL=jdbc:postgresql://database:5432/{{ POSTGRES_DB }}
-    -e SPRING_DATASOURCE_USERNAME={{ POSTGRES_USER }}
-    -e SPRING_DATASOURCE_PASSWORD={{ POSTGRES_PASSWORD }}
-    bouafou/tp-devops-simple-api
+  command: "docker run -d --name app --network app-network -e SPRING_DATASOURCE_URL=jdbc:postgresql://database:5432/mydb -e SPRING_DATASOURCE_USERNAME=postgres -e SPRING_DATASOURCE_PASSWORD=password bouafou/tp-devops-simple-api"
   ignore_errors: yes
