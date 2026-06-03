@@ -1,0 +1,26 @@
+deploy:
+  runs-on: ubuntu-24.04
+  needs:
+    - build-and-push-backend
+    - build-and-push-database
+    - build-and-push-httpd
+
+  steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Install Ansible
+      run: sudo apt-get install -y ansible
+
+    - name: Setup SSH key
+      run: |
+        mkdir -p ~/.ssh
+        echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+        chmod 400 ~/.ssh/id_rsa
+        ssh-keyscan marie.bouafou.takima.school >> ~/.ssh/known_hosts
+
+    - name: Deploy with Ansible
+      run: |
+        ansible-playbook -i ansible/inventories/setup.yml ansible/playbook.yml
+      env:
+        ANSIBLE_HOST_KEY_CHECKING: "false"
