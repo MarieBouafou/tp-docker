@@ -1,0 +1,29 @@
+
+TASK [network : Create Docker network] *********************************************************************************************************************
+fatal: [marie.bouafou.takima.school]: FAILED! => {"changed": true, "cmd": ["docker", "network", "create", "app-network"], "delta": "0:00:00.105388", "end": "2026-06-03 09:30:11.272979", "msg": "non-zero return code", "rc": 1, "start": "2026-06-03 09:30:11.167591", "stderr": "Error response from daemon: network with name app-network already exists", "stderr_lines": ["Error response from daemon: network with name app-network already exists"], "stdout": "", "stdout_lines": []}
+...ignoring
+
+TASK [database : Run database container] *******************************************************************************************************************
+fatal: [marie.bouafou.takima.school]: FAILED! => {"changed": true, "cmd": ["docker", "run", "-d", "--name", "database", "--network", "app-network", "-e", "POSTGRES_USER=postgres", "-e", "POSTGRES_PASSWORD=password", "-e", "POSTGRES_DB=mydb", "bouafou/tp-devops-database"], "delta": "0:00:00.047575", "end": "2026-06-03 09:30:11.678850", "msg": "non-zero return code", "rc": 125, "start": "2026-06-03 09:30:11.631275", "stderr": "docker: Error response from daemon: Conflict. The container name \"/database\" is already in use by container \"c1349011739db4ae27ea7479af1756c7c7c3c7cbbf01ac3d79fcb0a1b1334421\". You have to remove (or rename) that container to be able to reuse that name.\n\nRun 'docker run --help' for more information", "stderr_lines": ["docker: Error response from daemon: Conflict. The container name \"/database\" is already in use by container \"c1349011739db4ae27ea7479af1756c7c7c3c7cbbf01ac3d79fcb0a1b1334421\". You have to remove (or rename) that container to be able to reuse that name.", "", "Run 'docker run --help' for more information"], "stdout": "", "stdout_lines": []}
+...ignoring
+
+TASK [app : Run app container] *****************************************************************************************************************************
+fatal: [marie.bouafou.takima.school]: FAILED! => {"changed": true, "cmd": ["docker", "run", "-d", "--name", "app", "--network", "app-network", "-e", "SPRING_DATASOURCE_URL=jdbc:postgresql://database:5432/mydb", "-e", "SPRING_DATASOURCE_USERNAME=postgres", "-e", "SPRING_DATASOURCE_PASSWORD=password", "bouafou/tp-devops-simple-api"], "delta": "0:00:00.032518", "end": "2026-06-03 09:30:12.072023", "msg": "non-zero return code", "rc": 125, "start": "2026-06-03 09:30:12.039505", "stderr": "docker: Error response from daemon: Conflict. The container name \"/app\" is already in use by container \"189ce954b9e9c5ba390f241e74a6348b577b5aeee49da8b3ce5ac83ee06ae67e\". You have to remove (or rename) that container to be able to reuse that name.\n\nRun 'docker run --help' for more information", "stderr_lines": ["docker: Error response from daemon: Conflict. The container name \"/app\" is already in use by container \"189ce954b9e9c5ba390f241e74a6348b577b5aeee49da8b3ce5ac83ee06ae67e\". You have to remove (or rename) that container to be able to reuse that name.", "", "Run 'docker run --help' for more information"], "stdout": "", "stdout_lines": []}
+...ignoring
+
+TASK [proxy : Run proxy container] *************************************************************************************************************************
+changed: [marie.bouafou.takima.school]
+
+PLAY RECAP *************************************************************************************************************************************************
+marie.bouafou.takima.school : ok=13   changed=5    unreachable=0    failed=0    skipped=0    rescued=0    ignored=3---
+# tasks file for roles/app
+- name: Run app container
+  command: >
+    docker run -d
+    --name app
+    --network app-network
+    -e SPRING_DATASOURCE_URL=jdbc:postgresql://database:5432/{{ POSTGRES_DB }}
+    -e SPRING_DATASOURCE_USERNAME={{ POSTGRES_USER }}
+    -e SPRING_DATASOURCE_PASSWORD={{ POSTGRES_PASSWORD }}
+    bouafou/tp-devops-simple-api
+  ignore_errors: yes

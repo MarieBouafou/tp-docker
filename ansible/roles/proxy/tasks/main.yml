@@ -1,0 +1,11 @@
+---
+# tasks file for roles/proxy
+- name: Run proxy container
+  command: >
+    docker run -d
+    --name proxy
+    --network app-network
+    -p 80:80
+    -e BACKEND_URL=http://app:8080/
+    bouafou/tp-devops-httpd
+  ignore_errors: yes
