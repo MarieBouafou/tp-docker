@@ -22,6 +22,7 @@ jobs:
           context: ./simpleapi
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/tp-devops-simple-api:latest
           push: true
+          no-cache: true
 
   build-and-push-database:
     runs-on: ubuntu-24.04
@@ -36,7 +37,7 @@ jobs:
           context: ./postgre
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/tp-devops-database:latest
           push: true
-
+          no-cache: true
   build-and-push-httpd:
     runs-on: ubuntu-24.04
     steps:
@@ -50,7 +51,7 @@ jobs:
           context: ./serveur
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/tp-devops-httpd:latest
           push: true
-
+          no-cache: true
 
   deploy:
     runs-on: ubuntu-24.04
