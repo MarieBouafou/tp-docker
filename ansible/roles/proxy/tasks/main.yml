@@ -1,5 +1,8 @@
 ---
 # tasks file for roles/proxy
+- name: Remove old proxy container
+  command: docker rm -f proxy
+  ignore_errors: yes
 
 - name: Run proxy container
   command: "docker run -d --name proxy --network app-network -p 80:80 -e BACKEND_URL=http://app:8080/ bouafou/tp-devops-httpd"

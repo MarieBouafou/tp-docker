@@ -1,4 +1,8 @@
 # tasks file for roles/app
+- name: Remove old app container
+  command: docker rm -f app
+  ignore_errors: yes
+
 - name: Run app container
   command: "docker run -d --name app --network app-network -e SPRING_DATASOURCE_URL=jdbc:postgresql://database:5432/mydb -e SPRING_DATASOURCE_USERNAME=postgres -e SPRING_DATASOURCE_PASSWORD=password bouafou/tp-devops-simple-api"
   ignore_errors: yes

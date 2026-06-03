@@ -1,5 +1,9 @@
 ---
 # tasks file for roles/database
+- name: Remove old database container
+  command: docker rm -f database
+  ignore_errors: yes
+  
 - name: Run database container
   command: >
     docker run -d
