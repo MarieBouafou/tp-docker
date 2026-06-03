@@ -1,9 +1,12 @@
 ---
 # tasks file for roles/database
+- name: Pull latest database image
+  command: docker pull bouafou/tp-devops-simple-api
+
 - name: Remove old database container
   command: docker rm -f database
   ignore_errors: yes
-  
+
 - name: Run database container
   command: >
     docker run -d
