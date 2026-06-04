@@ -6,6 +6,8 @@ all:
     POSTGRES_USER: postgres
     POSTGRES_PASSWORD: password
     POSTGRES_DB: mydb
+    BACKEND_URL: "http://app:8080/"
+    FRONTEND_URL: "http://front:80/"
   children:
     prod:
       hosts: marie.bouafou.takima.school
