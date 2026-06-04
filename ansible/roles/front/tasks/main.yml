@@ -1,0 +1,12 @@
+---
+# tasks file for roles/front
+---
+- name: Pull latest front image
+  command: docker pull bouafou/tp-devops-front
+
+- name: Remove old front container
+  command: docker rm -f front
+  ignore_errors: yes
+
+- name: Run front container
+  command: "docker run -d --name front --network app-network bouafou/tp-devops-front"

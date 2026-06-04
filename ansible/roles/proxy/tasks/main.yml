@@ -8,5 +8,5 @@
   ignore_errors: yes
 
 - name: Run proxy container
-  command: "docker run -d --name proxy --network app-network -p 80:80 -e BACKEND_URL=http://app:8080/ bouafou/tp-devops-httpd"
+  command: "docker run -d --name proxy --network app-network -p 80:80 -e BACKEND_URL={{ BACKEND_URL }} -e FRONTEND_URL={{ FRONTEND_URL }} bouafou/tp-devops-httpd"
   ignore_errors: yes
