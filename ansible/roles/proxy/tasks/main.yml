@@ -1,7 +1,7 @@
 ---
 # tasks file for roles/proxy
 - name: Pull latest proxy image
-  command: docker pull bouafou/tp-devops-simple-api
+  command: docker pull bouafou/tp-devops-httpd
 
 - name: Remove old proxy container
   command: docker rm -f proxy
@@ -9,4 +9,3 @@
 
 - name: Run proxy container
   command: "docker run -d --name proxy --network app-network -p 80:80 -e BACKEND_URL={{ BACKEND_URL }} -e FRONTEND_URL={{ FRONTEND_URL }} bouafou/tp-devops-httpd"
-  ignore_errors: yes
